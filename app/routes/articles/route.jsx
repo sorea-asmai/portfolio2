@@ -8,17 +8,30 @@ import { formatTimecode, readingTime } from '~/utils/timecode';
 
 export async function loader({ request }) {
   const slug = request.url.split('/').at(-1);
-  const module = await import(`../articles.${slug}.mdx`);
-  const text = await import(`../articles.${slug}.mdx?raw`);
-  const readTime = readingTime(text.default);
-  const ogImage = `${config.url}/static/${slug}-og.jpg`;
-  const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
 
-  return json({
-    ogImage,
-    frontmatter: module.frontmatter,
-    timecode: formatTimecode(readTime),
-  });
+  try {
+    const module = await import(`../articles.${slug}.mdx`);
+    const { default: text, frontmatter } = module;
+    const readTime = readingTime(text);
+    const ogImage = `${config.url}/static/${slug}-og.jpg`;
+
+    try {
+      const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
+      // Generate OG image using Puppeteer (not shown in the code)
+    } catch (error) {
+      console.error(`Error launching Puppeteer browser: ${error}`);
+      return json({ error: 'Failed to generate OG image' }, 500);
+    }
+
+    return json({
+      ogImage,
+      frontmatter,
+      timecode: formatTimecode(readTime),
+    });
+  } catch (error) {
+    console.error(`Error importing MDX file: ${error}`);
+    return json({ error: 'Failed to load article' }, 500);
+  }
 }
 
 export function meta({ data }) {
