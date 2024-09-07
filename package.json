@@ -1,9 +1,9 @@
 {
   "name": "portfolio",
-  "homepage": "https://hamishw.com",
-  "description": "Portfolio site for Hamish Williams",
-  "repository": "https://github.com/HamishMW/portfolio.git",
-  "author": "Hamish Williams",
+  "homepage": "https://sore-asmai.github.io/portfolio2/",
+  "description": "Portfolio site for Sorea Asmai",
+  "repository": "https://github.com/sorea-asmai/portfolio2.git",
+  "author": "Sorea Asmai",
   "sideEffects": false,
   "type": "module",
   "scripts": {
@@ -11,7 +11,8 @@
     "dev": "node ./scripts/dev.cjs && remix vite:dev",
     "start": "wrangler pages dev ./build/client",
     "postinstall": "node ./scripts/draco.cjs",
-    "deploy": "npm run build && wrangler pages deploy ./build/client --project-name portfolio",
+    "predeploy": "npm run build",
+    "deploy": "npm run build && wrangler pages deploy ./build/client --project-name portfolio && gh-pages -b master -d build",
     "dev:storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build",
     "deploy:storybook": "wrangler pages deploy ./storybook-static --project-name portfolio-storybook --branch main"
@@ -23,6 +24,7 @@
     "@remix-run/cloudflare-pages": "^2.7.1",
     "@remix-run/react": "^2.7.1",
     "framer-motion": "11.0.5",
+    "gh-pages": "^6.1.1",
     "isbot": "^4.1.0",
     "miniflare": "^3.20231030.4",
     "react": "^18.2.0",
