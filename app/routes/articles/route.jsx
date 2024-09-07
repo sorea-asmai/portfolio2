@@ -12,6 +12,7 @@ export async function loader({ request }) {
   const text = await import(`../articles.${slug}.mdx?raw`);
   const readTime = readingTime(text.default);
   const ogImage = `${config.url}/static/${slug}-og.jpg`;
+  const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
 
   return json({
     ogImage,
