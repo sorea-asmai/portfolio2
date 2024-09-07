@@ -8,11 +8,10 @@ from = "/api/*"
 to = "/.netlify/functions/:splat"
 status = 200
 
-
 [[redirects]]
 from = "/*"
 to = "/index.html"
 status = 200
+
 [[plugins]]
-package = "@netlify/plugin-functions-install-core"`
-Use this code in your netlify.toml and just deploy on netlify
+package = "@netlify/plugin-functions-install-core"
